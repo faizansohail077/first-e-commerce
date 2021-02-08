@@ -1,6 +1,6 @@
 import React from 'react'
 import './Home.css'
-import logo from '../../images/bg.jpg'
+import logo from '../../components/images/bg.jpg'
 
 
 import HomeScreenLeft from './components/HomeScreenLeft'
