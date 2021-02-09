@@ -6,7 +6,7 @@ const HomeScreenRight = () => {
     return (
         <div>
             <div className="home__row">
-                <Product children={'addtocart'} />
+                <Product children={'DETAILS'} />
                 </div>
 
         </div>

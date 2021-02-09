@@ -1,15 +1,19 @@
 import React from 'react'
 import './Product.css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 
 function Product({ children }) {
-    const { product } = useSelector(state => state.ProductReducer)
-    console.log('ssss', product)
+    const { products } = useSelector(state => state.ProductReducer)
 
+
+    console.log('ssss', products)
+    const dispatch = useDispatch()
     return (
         <div className="product">
             {
-                product.map((item) => {
+                products.map((item) => {
                     return (
                         <div className="products">
                             <div className="product__info">
@@ -19,7 +23,9 @@ function Product({ children }) {
                                     <strong>{item.price}</strong>
                                 </p>
                             </div>
-                            <img src={item.image} alt="logo" />
+                            <Link to={`/details/${item.id}`}>
+                                <img src={item.image} alt="logo" />
+                            </Link>
                             <button >{children}</button>
                         </div>
 
