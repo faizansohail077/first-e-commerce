@@ -1,11 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { auth } from '../../firebase'
+import { auth, provider } from '../../firebase'
 import './Signin.css'
 const Signin = () => {
+    const { user } = useSelector(state => state.CartReducer)
+
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
-
+    const dispatch = useDispatch()
 
     const signIn = (e) => {
         e.preventDefault()
@@ -16,6 +19,11 @@ const Signin = () => {
                 alert(err.message)
             })
     }
+
+    const signInWithGoogle = (e) => {
+        e.preventDefault()
+        auth.signInWithPopup(provider)
+    }
     return (
         <div className="signin">
             <form >
@@ -23,9 +31,8 @@ const Signin = () => {
                 <input ref={emailRef} type="email" placeholder="Enter Email" />
                 <input ref={passwordRef} type="password" placeholder="Enter Password" />
                 <button type="submit" onClick={signIn} >Sign In</button>
-
+                <button type="submit" style={{ marginTop: '5px' }} onClick={signInWithGoogle} >Sign In with google</button>
                 <h5 style={{ paddingTop: '10px' }}>
-
                     Don't Have an Account?
                     <Link to='/signup'>
                         <span className="signUp" >Sign Up now</span>

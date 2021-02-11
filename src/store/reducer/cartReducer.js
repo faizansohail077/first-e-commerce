@@ -1,20 +1,19 @@
 const initialState = {
     products: [],
     totalPrice: 0,
+    user: null,
     totalQuantities: 0,
 
 }
+
 const CartReducer = (state = initialState, action) => {
     let findPro;
     let index;
     switch (action.type) {
         case 'ADD_TO_CART':
             const { product, quantity } = action.payload
-            console.log(product.id, quantity)
 
             const check = state.products.find(product1 => product1.id === product.id)
-            console.log('check', check)
-            console.log('checkcing products', state.products)
             if (check) {
                 return state
             }
@@ -60,29 +59,21 @@ const CartReducer = (state = initialState, action) => {
                 products: filtered,
                 totalPrice: state.totalPrice - findPro.totalPrice * findPro.quantity, totalQuantities: state.totalQuantities - findPro.quantity
             }
+        case 'LOGIN':
+            return {
+                ...state,
+                user: action.payload
+            }
+        case 'LOGOUT':
+            return {
+                ...state,
+                user : null
+            }
         default:
             return state
     }
 
 }
-const init = {
-    user: null
-}
 
-export const loginReducer = (state = init, action) => {
-    switch (action.type) {
-        case 'LOGIN':
-            state.user = action.payload
-            break
-        case 'LOGOUT':
-            state.user = action.payload;
-            break
-
-        default:
-            return state;
-    }
-
-
-}
 
 export default CartReducer

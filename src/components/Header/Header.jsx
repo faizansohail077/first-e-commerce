@@ -7,20 +7,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { auth } from '../../firebase'
 
 function Header() {
-    const { totalQuantities } = useSelector(state => state.CartReducer)
+    const { totalQuantities, user } = useSelector(state => state.CartReducer)
     const { products } = useSelector(state => state.CartReducer)
-    const {user} = useSelector(state => state.loginReducer)
-    console.log('aaaaaaaaaaaaaaaaaaaaa', user)
     const dispatch = useDispatch()
-    useEffect(()=>{
-        console.log('=========',user)
-    },[user])
-
 
     const logout = () => {
         auth.signOut()
             .then(alert('you are signed out'))
-            .then(dispatch({type:'LOGOUT'}))
+            .then(dispatch({ type: 'LOGOUT' }))
     }
 
     return (
@@ -34,12 +28,16 @@ function Header() {
             </div>
             <div className="header__nav">
                 <div className="header__option">
-                    <span className="header__optionLineOne">hello {user?.email}</span>
-                    <span className="header__optionLineTwo" onClick={logout}> sign out </span>
+                    {user && <span className="header__optionLineTwo" > hello <br /> {user ? user.name || user.email : ''}</span>}
                 </div>
-                <Link style={{ textDecoration: 'none', color: 'white' }} to='/signin'>
-                    <div style={{ fontSize: '14px', paddingTop: '10px' }}>Sign In</div>
-                </Link>
+
+                {
+                    user ? (<button onClick={logout}>Sign out</button>) : (<Link style={{ textDecoration: 'none', color: 'white' }} to='/signin'>
+                        <div style={{ fontSize: '14px', paddingTop: '10px' }}>Sign In</div>
+                    </Link>)
+                }
+
+
                 <Link style={{ textDecoration: 'none', color: 'white' }} to='signup'>
                     <div style={{ fontSize: '14px', paddingTop: '10px' }}>Sign Up</div>
                 </Link>

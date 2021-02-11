@@ -13,7 +13,7 @@ const Checkout2 = () => {
     }, [products])
     const total = () => {
         var count1 = 0
-        products.map(product => {
+        products?.map(product => {
             count1 += product.price * product.quantity
         })
         setCount(count1)
@@ -23,7 +23,7 @@ const Checkout2 = () => {
             <div className="checkout__left">
                 <h3>Your Cart</h3>
                 <h3>Your total bill is {count.toFixed(1)}</h3>
-                {products.length > 0 ?
+                {products?.length > 0 ?
                     <>
                         {
                             products.map(product => (

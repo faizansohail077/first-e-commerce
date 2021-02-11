@@ -1,4 +1,6 @@
 import firebase from 'firebase'
+import 'firebase/firestore'
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyBmn_VxXhEtCya2NmvlOV3aFvUxiu7Rb6M",
@@ -14,6 +16,16 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const db = firebaseApp.firestore()
 const auth = firebase.auth()
+export const provider = new firebase.auth.GoogleAuthProvider();
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+    if (!userAuth) return
+    else {
+        console.log(db.doc('users/adasdasd'))
+    }
+}
+
+
 
 export { auth }
 export default db

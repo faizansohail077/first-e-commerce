@@ -8,27 +8,31 @@ import Checkout from './Screens/Checkout/Checkout2';
 import Details from './Screens/Details/Details';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { auth } from './firebase';
+import { auth,createUserProfileDocument } from './firebase';
 
 
 function App() {
-  const user = useSelector(state => state.loginReducer)
+  const value = useSelector(state => state.CartReducer)
+  let { user } = useSelector(state => state.CartReducer)
+
+ 
+
+
   const dispatch = useDispatch()
-
-
   useEffect(() => {
-    const unSubscribe = auth.onAuthStateChanged(userAuth => {
-      console.log('asdasdasdaklsdas1231l', userAuth)
+    const unSubscribe = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
-        dispatch({ type: 'LOGIN', payload: [userAuth.uid, userAuth.email] })
-        console.log(userAuth)
+        createUserProfileDocument(userAuth)
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa',userAuth)
+        dispatch({ type: 'LOGIN', payload: { name: userAuth.displayName, email: userAuth.email } })
+        // console.log(userAuth, userAuth.displayName,userAuth.email)
       } else {
-        dispatch({ type: 'LOGOUT', payload: false })
+        dispatch({ type: 'LOGOUT' })
+        alert('no account')
       }
     })
     return unSubscribe
-  }, [dispatch]
-  )
+  }, [dispatch])
 
 
   return (
