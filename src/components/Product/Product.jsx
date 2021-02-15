@@ -8,7 +8,7 @@ function Product({ children }) {
     const { products } = useSelector(state => state.ProductReducer)
 
 
-    console.log('ssss', products)
+    console.log('products', products)
     const dispatch = useDispatch()
     return (
         <div className="product">

@@ -4,10 +4,12 @@ import './Checkout.css'
 import CheckoutRight from './CheckoutRight'
 
 const Checkout2 = () => {
-    const { products } = useSelector(state => state.CartReducer)
+    const { products, user } = useSelector(state => state.CartReducer)
+    console.log('this is checkout', products)
     const dispatch = useDispatch()
+    console.log('this is checkout user', user?.id)
     const [count, setCount] = useState(0)
-    
+
     useEffect(() => {
         total()
     }, [products])
@@ -18,6 +20,8 @@ const Checkout2 = () => {
         })
         setCount(count1)
     }
+
+
     return (
         <div className="checkout">
             <div className="checkout__left">
@@ -57,8 +61,13 @@ const Checkout2 = () => {
                     </>
                     :
                     'include product'}
+                <div>
+
+                </div>
+
+
             </div>
-            <CheckoutRight/>
+            <CheckoutRight />
         </div>
     )
 }

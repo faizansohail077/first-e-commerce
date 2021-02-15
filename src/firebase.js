@@ -20,9 +20,30 @@ export const provider = new firebase.auth.GoogleAuthProvider();
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) return
-    else {
-        console.log(db.doc('users/adasdasd'))
+    const userRef = db.doc(`users/${userAuth.uid}`)
+    const snapShot = await userRef.get()
+    if (!snapShot.exists) {
+        const { displayName, email, uid } = userAuth;
+        const createdAt = new Date()
+        try {
+            await userRef.set({
+                displayName,
+                email,
+                createdAt,
+                uid,
+                ...additionalData
+            })
+        }
+        catch (error) {
+            console.log('error creating user', error)
+        }
     }
+    return userRef
+}
+
+export const addCollectionAndDocument = (collectionKey, objectsToAdd) => {
+    const collectionRef = db.collection(collectionKey);
+    console.log(collectionRef)
 }
 
 

@@ -1,6 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import db from '../../firebase'
 
 const CheckoutRight = () => {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [number, setNumber] = useState(0)
+    const [address, setAddress] = useState('')
+    const [payment, setPayment] = useState('')
+    const [orderType, setOrderType] = useState('')
+    const { products, user } = useSelector(state => state.CartReducer)
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        total()
+    }, [products])
+    const total = () => {
+        var count1 = 0
+        products?.map(product => {
+            count1 += product.price * product.quantity
+        })
+        setCount(count1)
+    }
+
+
+
+    const save = (e) => {
+        e.preventDefault()
+        db.collection('users').doc(user?.id).collection('order').doc().set({
+            productList: products,
+            name: firstName + lastName,
+            number: number,
+            email: email,
+            address: address,
+            paymentMethod: payment,
+            orderType: orderType,
+            status: 'pending',
+            totalPrice: count
+        })
+        setFirstName('')
+        setLastName('')
+        setEmail('')
+        setNumber('')
+        setAddress('')
+        setPayment('')
+        setOrderType('')
+
+    }
     return (
         <>
             <div className="checkout__right">
@@ -11,119 +58,91 @@ const CheckoutRight = () => {
                             <div className="row">
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="firstName">First name</label>
-                                    <input type="text" className="form-control" id="firstName" placeholder="" required />
+                                    <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" className="form-control" id="firstName" placeholder="" required />
                                     <div className="invalid-feedback">
                                         Valid first name is required.
-            </div>
+                            </div>
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="lastName">Last name</label>
-                                    <input type="text" className="form-control" id="lastName" placeholder="" required />
+                                    <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" className="form-control" id="lastName" placeholder="" required />
                                     <div className="invalid-feedback">
                                         Valid last name is required.
-            </div>
                                 </div>
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="email">Number <span className="text-muted"></span></label>
+                                <input value={number} onChange={(e) => setNumber(e.target.value)} type="number" className="form-control" id="email" required placeholder="Enter Your Mobile Number" />
+                                <div className="invalid-feedback">
+                                    Please enter a valid Number for shipping updates.
+                            </div>
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="username">Username</label>
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">@</span>
-                                    </div>
-                                    <input type="text" className="form-control" id="username" placeholder="Username" required />
-                                    <div className="invalid-feedback" style={{ width: "100%" }}>
-                                        Your username is required.
-            </div>
-                                </div>
-                            </div>
-
-                            <div className="mb-3">
-                                <label htmlFor="email">Email <span className="text-muted">(Optional)</span></label>
-                                <input type="email" className="form-control" id="email" placeholder="you@example.com" />
+                                <label htmlFor="email">Email <span className="text-muted"></span></label>
+                                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" id="email" required placeholder="you@example.com" />
                                 <div className="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
-          </div>
+                            </div>
                             </div>
 
                             <div className="mb-3">
                                 <label htmlFor="address">Address</label>
-                                <input type="text" className="form-control" id="address" placeholder="1234 Main St" required />
+                                <input value={address} onChange={(e) => setAddress(e.target.value)} type="text" className="form-control" id="address" placeholder="1234 Main St" required />
                                 <div className="invalid-feedback">
                                     Please enter your shipping address.
-          </div>
+        </div>
                             </div>
 
-                            <div className="mb-3">
-                                <label htmlFor="address2">Address 2 <span className="text-muted">(Optional)</span></label>
-                                <input type="text" className="form-control" id="address2" placeholder="Apartment or suite" />
-                            </div>
-
-                            <div className="row">
-                                <div className="col-md-5 mb-3">
-                                    <label htmlFor="country">Country</label>
-                                    <select className="custom-select d-block w-100" id="country" required>
-                                        <option value="">Choose...</option>
-                                        <option>United States</option>
-                                    </select>
-                                    <div className="invalid-feedback">
-                                        Please select a valid country.
-            </div>
-                                </div>
-                                <div className="col-md-4 mb-3">
-                                    <label htmlFor="state">State</label>
-                                    <select className="custom-select d-block w-100" id="state" required>
-                                        <option value="">Choose...</option>
-                                        <option>California</option>
-                                    </select>
-                                    <div className="invalid-feedback">
-                                        Please provide a valid state.
-            </div>
-                                </div>
-                                <div className="col-md-3 mb-3">
-                                    <label htmlFor="zip">Zip</label>
-                                    <input type="text" className="form-control" id="zip" placeholder="" required />
-                                    <div className="invalid-feedback">
-                                        Zip code required.
-            </div>
-                                </div>
-                            </div>
                             <hr className="mb-4" />
-                            <div className="custom-control custom-checkbox">
-                                <input type="checkbox" className="custom-control-input" id="same-address" />
-                                <label className="custom-control-label" htmlFor="same-address">Shipping address is the same as my billing address</label>
-                            </div>
-                            <div className="custom-control custom-checkbox">
-                                <input type="checkbox" className="custom-control-input" id="save-info" />
-                                <label className="custom-control-label" htmlFor="save-info">Save this information for next time</label>
-                            </div>
+
                             <hr className="mb-4" />
 
                             <h4 className="mb-3">Payment</h4>
 
                             <div className="d-block my-3">
                                 <div className="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" className="custom-control-input" checked required />
+                                    <input id="credit" onClick={() => setPayment('Credit Card')} name="paymentMethod" type="radio" className="custom-control-input" required />
                                     <label className="custom-control-label" htmlFor="credit">Credit card</label>
                                 </div>
                                 <div className="custom-control custom-radio">
-                                    <input id="debit" name="paymentMethod" type="radio" className="custom-control-input" required />
+                                    <input id="debit" onClick={() => setPayment('Debit Card')} name="paymentMethod" type="radio" className="custom-control-input" required />
                                     <label className="custom-control-label" htmlFor="debit">Debit card</label>
                                 </div>
                                 <div className="custom-control custom-radio">
-                                    <input id="paypal" name="paymentMethod" type="radio" className="custom-control-input" required />
-                                    <label className="custom-control-label" htmlFor="paypal">PayPal</label>
+                                    <input id="paypal" onClick={() => setPayment('Cash On Delivery')} name="paymentMethod" type="radio" className="custom-control-input" required />
+                                    <label className="custom-control-label" htmlFor="paypal">COD</label>
                                 </div>
+                                <div>
+
+                                </div>
+
                             </div>
-                            <div className="row">
+
+                            <div class="form-check">
+                                <input onClick={() => setOrderType('Order')} class="form-check-input" type="checkbox" id="flexCheckDefault" />
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Order
+                          </label>
+                            </div>
+                            <div class="form-check">
+                                <input onClick={() => setOrderType('Subscription')} class="form-check-input" type="checkbox" id="flexCheckChecked" />
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Subscription
+                        </label>
+                            </div>
+
+                            {/* <div className="row">
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="cc-name">Name on card</label>
                                     <input type="text" className="form-control" id="cc-name" placeholder="" required />
                                     <small className="text-muted">Full name as displayed on card</small>
                                     <div className="invalid-feedback">
                                         Name on card is required
-            </div>
+                               </div>
                                 </div>
+
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="cc-number">Credit card number</label>
                                     <input type="text" className="form-control" id="cc-number" placeholder="" required />
@@ -131,25 +150,15 @@ const CheckoutRight = () => {
                                         Credit card number is required
             </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-3 mb-3">
-                                    <label htmlFor="cc-expiration">Expiration</label>
-                                    <input type="text" className="form-control" id="cc-expiration" placeholder="" required />
-                                    <div className="invalid-feedback">
-                                        Expiration date required
-            </div>
-                                </div>
-                                <div className="col-md-3 mb-3">
-                                    <label htmlFor="cc-cvv">CVV</label>
-                                    <input type="text" className="form-control" id="cc-cvv" placeholder="" required />
-                                    <div className="invalid-feedback">
-                                        Security code required
-            </div>
-                                </div>
-                            </div>
+                            </div> */}
+
                             <hr className="mb-4" />
-                            <button className="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+
+                            {user ? (
+                                <button onClick={save} className="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>) :
+                                <button onClick={() => alert('Sign In To Proceed')} className="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                            }
+                            {/* */}
                         </form>
                     </div>
                 </div>

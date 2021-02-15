@@ -9,18 +9,18 @@ import storage from 'redux-persist/lib/storage'
 const persistConfig = {
     key: 'root',
     storage,
-    blackList:['CartReducer','ProductReducer']
+    blackList: ['CartReducer', 'ProductReducer']
 }
 
 const rootReducer = combineReducers({
     ProductReducer,
-    
+
     CartReducer,
 })
 // const persistedReducer = persistReducer(persistConfig, rootReducer)
 // export let store = createStore(persistedReducer, devToolsEnhancer())
 export let store = createStore(rootReducer, devToolsEnhancer())
-store.subscribe(()=>{
-    console.log('===========================',store.getState())
+store.subscribe(() => {
+    console.log('store get state', store.getState())
 })
 // export let persistor = persistStore(store)

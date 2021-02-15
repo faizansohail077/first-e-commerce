@@ -13,7 +13,6 @@ function Header() {
 
     const logout = () => {
         auth.signOut()
-            .then(alert('you are signed out'))
             .then(dispatch({ type: 'LOGOUT' }))
     }
 
@@ -22,6 +21,12 @@ function Header() {
             <Link to="/">
                 <img className="header__logo" src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/BNG_logo.svg/661px-BNG_logo.svg.png' alt='Logo' />
             </Link>
+            {user ? <Link to="/dashboard">
+
+                <button>Dashboard</button>
+            </Link> : <button onClick={() => alert('Sign In please')}>Dashboard</button>}
+
+
             <div className="header__search">
                 <input type="text" className="header__searchInput" />
                 <SearchIcon className="header__searchIcon" />

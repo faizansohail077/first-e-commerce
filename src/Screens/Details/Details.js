@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
-
 import './Details.css'
 const Details = () => {
     const [quantity, setQuantity] = useState(1)
@@ -14,17 +13,13 @@ const Details = () => {
             setQuantity(quantity - 1)
         }
     }
-
-
     useEffect(() => {
         dispatch({ type: 'PRODUCT', id: id })
     }, [id])
 
-
     return (
         <div className="container">
             <div>
-
                 <img src={product?.image} alt='' />
                 <p>{product?.name}</p>
                 <p>{product?.description}</p>

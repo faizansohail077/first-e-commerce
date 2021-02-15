@@ -12,6 +12,7 @@ const CartReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_TO_CART':
             const { product, quantity } = action.payload
+            console.log('this is product in reduces', product)
 
             const check = state.products.find(product1 => product1.id === product.id)
             if (check) {
@@ -30,7 +31,6 @@ const CartReducer = (state = initialState, action) => {
             index = state.products.findIndex(product => product.id == action.payload);
             findPro.quantity += 1
             state.products[index] = findPro
-
             return {
                 ...state, totalPrice: state.totalPrice + findPro.totalPrice, totalQuantities: state.totalQuantities + 1
             }
@@ -67,7 +67,7 @@ const CartReducer = (state = initialState, action) => {
         case 'LOGOUT':
             return {
                 ...state,
-                user : null
+                user: null
             }
         default:
             return state

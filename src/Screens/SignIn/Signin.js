@@ -1,29 +1,36 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { auth, provider } from '../../firebase'
 import './Signin.css'
 const Signin = () => {
     const { user } = useSelector(state => state.CartReducer)
+    const history = useHistory()
 
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        user && history.push('/')
+    }, [user])
+
     const signIn = (e) => {
         e.preventDefault()
         auth.signInWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
             .then((authUser) => {
-                console.log(authUser, 'signin')
             }).catch((err) => {
                 alert(err.message)
             })
     }
 
+
     const signInWithGoogle = (e) => {
         e.preventDefault()
         auth.signInWithPopup(provider)
+
     }
+
     return (
         <div className="signin">
             <form >

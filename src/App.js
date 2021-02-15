@@ -7,28 +7,39 @@ import Signup from './Screens/Signup/Signup';
 import Checkout from './Screens/Checkout/Checkout2';
 import Details from './Screens/Details/Details';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { auth,createUserProfileDocument } from './firebase';
+import { useEffect, useState } from 'react';
+import { auth, createUserProfileDocument } from './firebase';
+import Dashboard from './Screens/Dashboard/Dashboard';
 
 
 function App() {
   const value = useSelector(state => state.CartReducer)
   let { user } = useSelector(state => state.CartReducer)
-
- 
-
-
+  let user2 = user
+  console.log('this is new user', user2)
+  console.log('this is user id', user2?.id)
+  let [userdata, setUserData] = useState({ user2 })
   const dispatch = useDispatch()
+
+
+
   useEffect(() => {
     const unSubscribe = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
-        createUserProfileDocument(userAuth)
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa',userAuth)
-        dispatch({ type: 'LOGIN', payload: { name: userAuth.displayName, email: userAuth.email } })
-        // console.log(userAuth, userAuth.displayName,userAuth.email)
+        const userRef = await createUserProfileDocument(userAuth)
+        dispatch({ type: 'LOGIN', payload: { name: userAuth.displayName, email: userAuth.email, id: userAuth.uid, userAuth } })
+        userRef.onSnapshot(async snapshot => {
+          await setUserData({
+            id: snapshot.id,
+            ...snapshot.data()
+          }
+          )
+        })
+
+        console.log('this is userAuth', userAuth, userAuth.email)
+
       } else {
         dispatch({ type: 'LOGOUT' })
-        alert('no account')
       }
     })
     return unSubscribe
@@ -40,6 +51,7 @@ function App() {
       <Router>
         <Header />
         <Switch>
+
           <Route path="/details/:id">
             <Details />
           </Route>
@@ -53,9 +65,13 @@ function App() {
           <Route path="/signin">
             <Signin />
           </Route>
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
           <Route path="/">
             <Home />
           </Route>
+
         </Switch>
       </Router>
 
