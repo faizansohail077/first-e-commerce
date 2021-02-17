@@ -26,7 +26,6 @@ function Product({ children }) {
                             <Link to={`/details/${item.id}`}>
                                 <img src={item.image} alt="logo" />
                             </Link>
-                            <button >{children}</button>
                         </div>
 
                     )

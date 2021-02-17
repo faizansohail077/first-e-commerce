@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import db from '../../firebase'
 
 const CheckoutRight = () => {
@@ -12,20 +12,14 @@ const CheckoutRight = () => {
     const [payment, setPayment] = useState('')
     const [orderType, setOrderType] = useState('')
     const { products, user } = useSelector(state => state.CartReducer)
-    let products2 = products
-    console.log('rhis is product 2', products2)
+    console.log('this is products', products)
+    const dispatch = useDispatch()
     const [count, setCount] = useState(0)
     const [error, setError] = useState('')
     const [nameError, setNameError] = useState('')
-    const [emailError, setEmailError] = useState('')
     const [numberError, setNumberError] = useState('')
-    const [addressError, setAddressError] = useState('')
     const [paymentError, setPaymentError] = useState('')
     const [orderTypeError, setOrderTypeError] = useState('')
-
-
-
-
 
     useEffect(() => {
         total()
@@ -48,14 +42,9 @@ const CheckoutRight = () => {
     }
     console.log('this is first name', firstName)
 
-
-    function empty() {
-        products2 = []
-    }
-
     const save = (e) => {
         e.preventDefault()
-        if (!products2.length) {
+        if (!products.length) {
             return alert('Add Item To Proceed')
         }
         let fName = firstName.trim()
@@ -98,8 +87,7 @@ const CheckoutRight = () => {
                 status: 'pending',
                 totalPrice: count
             })
-            empty()
-
+            dispatch({ type: "EMPTY_PRODUCTS" })
             setFirstName('')
             setLastName('')
             setEmail('')
@@ -110,6 +98,9 @@ const CheckoutRight = () => {
             setError('')
             setPaymentError('')
             setOrderTypeError('Select Order type')
+            setTimeout(() => {
+                alert('Your Order has been Successfully Submited')
+            }, 1000)
         }
     }
     return (
@@ -124,7 +115,6 @@ const CheckoutRight = () => {
                                     <label htmlFor="firstName">First name</label>
                                     <input value={firstName} onChange={first} type="text" className="form-control" id="firstName" placeholder="" required />
                                     <p style={{ marginTop: '10px', color: 'red' }}>{nameError}</p>
-
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="lastName">Last name</label>
@@ -207,3 +197,11 @@ const CheckoutRight = () => {
 }
 
 export default CheckoutRight
+// const findItem = (productId) => userItem.filter((item) => item.id !== productId)
+// const remove = (id) => {
+//     let cart = findItem(id)
+//     console.log('carts ', cart)
+//     db.collection('users').doc(user?.id).collection('items').doc('itemList').set({
+//         cart
+//     })
+// }

@@ -6,8 +6,8 @@ const HomeScreenRight = () => {
     return (
         <div>
             <div className="home__row">
-                <Product key={''} children={'DETAILS'} />
-                </div>
+                <Product key={''} />
+            </div>
 
         </div>
     )

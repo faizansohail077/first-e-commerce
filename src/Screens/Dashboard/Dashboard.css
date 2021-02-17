@@ -1,0 +1,7 @@
+span {
+	border: 2px solid black;
+	margin-left: 20px;
+	margin-right: 20px;
+	padding: 3px;
+}
+/* , marginLeft: '20px', marginRight: '20px', padding: '10px' */

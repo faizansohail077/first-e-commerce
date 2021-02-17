@@ -4,12 +4,12 @@ import './Checkout.css'
 import CheckoutRight from './CheckoutRight'
 
 const Checkout2 = () => {
-    const { products, user } = useSelector(state => state.CartReducer)
+    const { products, user, totalAmount } = useSelector(state => state.CartReducer)
+    console.log('this is total Amount', totalAmount)
     console.log('this is checkout', products)
     const dispatch = useDispatch()
     console.log('this is checkout user', user?.id)
     const [count, setCount] = useState(0)
-
     useEffect(() => {
         total()
     }, [products])
