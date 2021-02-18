@@ -6,8 +6,6 @@ import db from '../../firebase'
 const Dashboard = () => {
     const { user } = useSelector(state => state.CartReducer)
     const [quantity, setQuantity] = useState(1)
-    // const { product } = useSelector((state => state.ProductReducer))
-    // console.log('this is product', product)
     const dispatch = useDispatch()
     const [userItem, setUserItem] = useState([])
     const [productID, setProductID] = useState()
@@ -16,41 +14,6 @@ const Dashboard = () => {
     const remove = (productID) => {
         db.collection('users').doc(user?.id).collection('order').doc(productID).delete()
     }
-
-    // let orderRef = db.collection('users').doc(user?.id).collection('items').doc().id
-    // let doc_id = orderRef.doc().id
-    // console.log(orderRef, 'id')
-
-    // useEffect(() => {
-    //     const database = db.collection('users').doc(user?.id).collection('order').doc('itemList').onSnapshot((doc) => {
-    //         if (doc.exists) {
-    //             console.log("Document data:", doc.data().cart);
-    //             const dataDb = doc.data().cart
-    //             setUserItem(dataDb)
-    //             console.log(dataDb, 'data')
-    //         } else {
-    //             console.log("No such document!");
-    //         }
-    //     })
-    // }, []);
-    // console.log('this is variable', userItem)
-
-    // useEffect(() => {
-
-    //     db.collection("users").doc(user?.id).collection('order').get().then((querySnapshot) => {
-    //         let cardItem = []
-    //         querySnapshot.forEach((doc) => {
-    //             const datadb = doc.data()
-    //             const ID = doc.id
-    //             cardItem.push(datadb)
-    //             console.log('this is user', cardItem)
-    //             // console.log(doc.id, " => ", doc.data());
-    //             setProductID(ID)
-    //         });
-    //         setUserItem(cardItem)
-    //     });
-    // }, [])
-
 
     useEffect(() => {
         db.collection("users").doc(user?.id).collection('order').onSnapshot((querySnapshot) => {
@@ -77,10 +40,6 @@ const Dashboard = () => {
         !user && history.push('/')
     }, [user])
 
-
-
-    // console.log('this is dashboard user', user)
-    // console.log(user?.email)
 
     return (
         <div >

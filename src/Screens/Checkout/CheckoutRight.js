@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import db from '../../firebase'
 import { useHistory } from 'react-router-dom'
+import swal from 'sweetalert';
+
 
 
 const CheckoutRight = () => {
@@ -23,7 +25,7 @@ const CheckoutRight = () => {
     const [numberError, setNumberError] = useState('')
     const [paymentError, setPaymentError] = useState('')
     const [orderTypeError, setOrderTypeError] = useState('')
-
+    console.log('aaaaaaaaaa', orderTypeError)
     useEffect(() => {
         total()
     })
@@ -102,7 +104,12 @@ const CheckoutRight = () => {
             setPaymentError('')
             setOrderTypeError('Select Order type')
             setTimeout(() => {
-                alert('Your Order has been Successfully Submited')
+                swal({
+                    title: "Good job!",
+                    text: "You Form Is Submitted ",
+                    icon: "success",
+                    button: "Aww yiss!",
+                });
             }, 1000)
         }
         setTimeout(() => {
@@ -172,18 +179,21 @@ const CheckoutRight = () => {
                             </div>
 
                             <div class="form-check">
-                                <input name="checkbox" onClick={() => setOrderType('Order')} class="form-check-input" type="checkbox" id="flexCheckChecked" />
+                                <input name="checkbox" onClick={() => setOrderType('Order')} class="form-check-input" type="radio" id="flexCheckChecked" />
                                 <label class="form-check-label" for="flexCheckDefault">
                                     Order
                         </label>
                             </div>
                             <div class="form-check">
-                                <input name="checkbox" onClick={() => setOrderType('Subscription')} class="form-check-input" type="checkbox" id="flexCheckChecked" />
-                                <label class="form-check-label" for="flexCheckChecked">
+                                <input name="checkbox" onClick={() => setOrderType('Subscription')} class="form-check-input" type="radio" id="flexCheckChecked" />
+                                <label class="form-check-label" >
                                     Subscription
                         </label>
                                 <p>{orderTypeError}</p>
                             </div>
+
+
+
 
                             <hr className="mb-4" />
 

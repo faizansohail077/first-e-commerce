@@ -12,11 +12,9 @@ const Checkout2 = () => {
     const history = useHistory()
     console.log('this is checkout user', user?.id)
     const [count, setCount] = useState(0)
-
     useEffect(() => {
         total()
     })
-
     const total = () => {
         var count1 = 0
         cartItem?.map(product2 => {
@@ -24,9 +22,7 @@ const Checkout2 = () => {
         })
         setCount(count1)
     }
-
     console.log('this is checkout', cartItem)
-
     return (
         <div style={{ marginLeft: '20px', marginTop: '10px' }} className="checkout">
             <div className="checkout__left">
@@ -41,21 +37,17 @@ const Checkout2 = () => {
                                     {product1.name}
                                     {product1.description}
                                     <div>
-                                        <img src={product1.image} alt='' />
-
+                                        <img width="300px" height="200px" src={product1.image} alt='' />
                                     </div>
                                     <button style={{ marginTop: '10px' }} onClick={() => {
-
                                         dispatch({ type: 'INC', payload: product1.id })
                                         // total()
                                     }} >+</button>
                                     <span>{product1.quantity}</span>
                                     <button onClick={() => {
                                         dispatch({ type: 'DEC', payload: product1.id })
-                                        // total()
                                     }} >-</button>
                                     <button onClick={() => dispatch({ type: 'REMOVE', payload: product1.id })}>Remove</button>
-
                                     <div style={{ marginTop: '10px' }} >
                                         total Quantity :{product1.quantity}
                                       total Price:{(product1.price * product1.quantity).toFixed(1)}
@@ -63,15 +55,11 @@ const Checkout2 = () => {
                                 </div>
                             ))
                         }
-
                     </>
                     :
                     'include product'}
                 <div>
-
                 </div>
-
-
             </div>
             <CheckoutRight />
         </div>

@@ -5,7 +5,7 @@ import db from '../../firebase'
 
 import './Details.css'
 const Details = () => {
-    const [quantity, setQuantity] = useState(1)
+    const [quantity, setQuantity] = useState(0)
     const [data, setData] = useState({})
     const { id } = useParams()
     const history = useHistory()
@@ -16,12 +16,15 @@ const Details = () => {
     const decrement = () => {
         if (quantity > 1) {
             setQuantity(quantity - 1)
+
         }
     }
-    // useEffect(() => {
-    //     dispatch({ type: 'PRODUCT', id: id })
 
-    // }, [id])
+    const addtocart = () => {
+        dispatch({ type: 'ADD_TO_CART', payload: { product, quantity } })
+        dispatch({ type: 'INC', payload: product?.id })
+
+    }
 
     useEffect(() => {
         db.collection('products').doc(id).get().then((doc) => {
@@ -41,16 +44,14 @@ const Details = () => {
     return (
         <div style={{ marginTop: '20px' }} className="container">
             <div>
-                <img src={product?.image} alt='' />
+                <img width="300px" height="200px" src={product?.image} alt='' />
                 <p>{product?.name}</p>
                 <p>{product?.description}</p>
                 <p>{product?.price}</p>
 
                 <div>
-                    <button onClick={() => setQuantity(quantity + 1)}>+</button>
-                    <span>{quantity}</span>
-                    <button onClick={decrement}>-</button>
-                    <button onClick={() => dispatch({ type: 'ADD_TO_CART', payload: { product, quantity } })}>Add to cart</button>
+
+                    <button onClick={addtocart}>Add to cart</button>
                 </div>
             </div>
 

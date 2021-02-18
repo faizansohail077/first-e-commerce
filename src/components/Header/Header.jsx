@@ -4,6 +4,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
+import swal from 'sweetalert';
 import { auth } from '../../firebase'
 
 function Header() {
@@ -24,7 +25,7 @@ function Header() {
             {user ? <Link to="/dashboard">
 
                 <button>Dashboard</button>
-            </Link> : <button onClick={() => alert('Sign In please')}>Dashboard</button>}
+            </Link> : <button onClick={() => swal("Sign In Please")}>Dashboard</button>}
 
 
             <div className="header__search">

@@ -11,10 +11,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       {/* <PersistGate loading={null} persistor={persistor}> */}
-        <App />
-      {/* </PersistGate>   */}
+      <App />
+      {/* </PersistGate> */}
     </Provider>
-
   </React.StrictMode>,
   document.getElementById('root')
 );

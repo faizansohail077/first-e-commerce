@@ -3,17 +3,12 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import db from '../../../firebase';
-// import Product from '../../../components/Product/Product'
-
 
 const HomeScreenRight = () => {
     const [homeData, setHomeData] = useState([])
-    const [homeDataID, setHomeDataID] = useState()
     const dispatch = useDispatch()
     const { products } = useSelector(state => state.CartReducer)
     console.log('these are products', products)
-    // console.log('these are products', products[].productId)
-
 
     useEffect(() => {
         let data = []
@@ -25,8 +20,7 @@ const HomeScreenRight = () => {
                     productId: dbID,
                     ...doc.data()
                 })
-                // console.log('this is db', dataID)
-                // console.log(doc.id, " => ", doc.data());
+
             });
             dispatch({ type: 'GET__PRODUCTS', payload: data })
             setHomeData(data)
@@ -35,32 +29,27 @@ const HomeScreenRight = () => {
     console.log('this is data', homeData)
     return (
         <>
-            {products.map(product => {
+            <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px', justifyContent: 'space-around' }}>
+                {products.map(product => {
 
-                return (
-                    <div style={{ display: 'flex' }}>
+                    return (
                         <div >
-                            <div>
-                                <Link to={`/details/${product.productId}`}>
-                                    <img src={product.image} alt="" />
-                                </Link>
-                                <p>{product.name}</p>
-                                {/* <p>{product.productId}</p> */}
+                            <div >
+                                <div>
+                                    <Link to={`/details/${product.productId}`}>
+                                        <img width="300px" height="200px" src={product.image} alt="" />
+                                    </Link>
+                                    <p>{product.name}</p>
+
+                                </div>
 
                             </div>
-
                         </div>
-                    </div>
-                )
-            })}
+                    )
+                })}
+            </div>
         </>
     )
 }
 
 export default HomeScreenRight
-{/* <div>
-<div className="home__row">
-    <Product key={''} />
-</div>
-
-</div> */}

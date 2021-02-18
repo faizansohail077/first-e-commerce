@@ -6,15 +6,14 @@ import { persistStore } from 'redux-persist'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-const persistConfig = {
-    key: 'root',
-    storage,
-    blackList: ['CartReducer', 'ProductReducer']
-}
+// const persistConfig = {
+//     key: 'root',
+//     storage,
+//     blackList: ['CartReducer', 'ProductReducer']
+// }
 
 const rootReducer = combineReducers({
     ProductReducer,
-
     CartReducer,
 })
 // const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -50,10 +50,11 @@ function App() {
   }, [dispatch])
 
   // useEffect(() => {
-  //   db.collection('products').doc().set(data)
   // }, [])
 
-
+  const sendData = () => {
+    db.collection('products').doc().set(data)
+  }
 
 
   return (
@@ -79,6 +80,7 @@ function App() {
             <Dashboard />
           </Route>
           <Route path="/">
+            {/* <button onClick={() => sendData()}>Send data</button> */}
             <Home />
           </Route>
 

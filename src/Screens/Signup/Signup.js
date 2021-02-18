@@ -12,10 +12,11 @@ const Signin = () => {
         e.preventDefault()
         auth.createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
             .then((authUser) => {
+                history.push('/')
             }).catch(err => {
                 alert(err.message)
             })
-        history.push('/')
+
 
     }
 
@@ -24,7 +25,6 @@ const Signin = () => {
             <form >
                 <h1>SignUp</h1>
                 <input ref={emailRef} type="email" placeholder="Enter Email" />
-                <input type="number" placeholder="Enter Number" />
                 <input ref={passwordRef} type="password" placeholder="Enter Password" />
                 <button type="submit" onClick={register} >Sign Up</button>
 
