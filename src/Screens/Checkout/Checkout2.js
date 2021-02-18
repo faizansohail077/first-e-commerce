@@ -1,58 +1,64 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import './Checkout.css'
 import CheckoutRight from './CheckoutRight'
 
 const Checkout2 = () => {
-    const { products, user, totalAmount } = useSelector(state => state.CartReducer)
+    const { cartItem, user, totalAmount } = useSelector(state => state.CartReducer)
     console.log('this is total Amount', totalAmount)
-    console.log('this is checkout', products)
+    console.log('this is checkout', cartItem)
     const dispatch = useDispatch()
+    const history = useHistory()
     console.log('this is checkout user', user?.id)
     const [count, setCount] = useState(0)
+
     useEffect(() => {
         total()
-    }, [products])
+    })
+
     const total = () => {
         var count1 = 0
-        products?.map(product => {
-            count1 += product.price * product.quantity
+        cartItem?.map(product2 => {
+            count1 += product2.price * product2.quantity
         })
         setCount(count1)
     }
 
+    console.log('this is checkout', cartItem)
 
     return (
-        <div className="checkout">
+        <div style={{ marginLeft: '20px', marginTop: '10px' }} className="checkout">
             <div className="checkout__left">
+                <button style={{ marginTop: '20px', marginBottom: '20px', padding: '10px', backgroundColor: 'orange' }} onClick={() => history.push('/')}>Go To Home</button>
                 <h3>Your Cart</h3>
                 <h3>Your total bill is {count.toFixed(1)}</h3>
-                {products?.length > 0 ?
+                {cartItem?.length > 0 ?
                     <>
                         {
-                            products.map(product => (
-                                <div key={product.id}>
-                                    {product.name}
-                                    {product.description}
+                            cartItem.map(product1 => (
+                                <div key={product1.id}>
+                                    {product1.name}
+                                    {product1.description}
                                     <div>
-                                        <img src={product.image} alt='' />
+                                        <img src={product1.image} alt='' />
 
                                     </div>
-                                    <button onClick={() => {
+                                    <button style={{ marginTop: '10px' }} onClick={() => {
 
-                                        dispatch({ type: 'INC', payload: product.id })
-                                        total()
+                                        dispatch({ type: 'INC', payload: product1.id })
+                                        // total()
                                     }} >+</button>
-                                    <span>{product.quantity}</span>
+                                    <span>{product1.quantity}</span>
                                     <button onClick={() => {
-                                        dispatch({ type: 'DEC', payload: product.id })
-                                        total()
+                                        dispatch({ type: 'DEC', payload: product1.id })
+                                        // total()
                                     }} >-</button>
-                                    <button onClick={() => dispatch({ type: 'REMOVE', payload: product.id })}>Remove</button>
+                                    <button onClick={() => dispatch({ type: 'REMOVE', payload: product1.id })}>Remove</button>
 
-                                    <div>
-                                        total Quantity :{product.quantity}
-                                      total Price:{(product.price * product.quantity).toFixed(1)}
+                                    <div style={{ marginTop: '10px' }} >
+                                        total Quantity :{product1.quantity}
+                                      total Price:{(product1.price * product1.quantity).toFixed(1)}
                                     </div>
                                 </div>
                             ))

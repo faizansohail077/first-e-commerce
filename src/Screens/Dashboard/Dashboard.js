@@ -6,7 +6,7 @@ import db from '../../firebase'
 const Dashboard = () => {
     const { user } = useSelector(state => state.CartReducer)
     const [quantity, setQuantity] = useState(1)
-    const { product } = useSelector((state => state.ProductReducer))
+    // const { product } = useSelector((state => state.ProductReducer))
     // console.log('this is product', product)
     const dispatch = useDispatch()
     const [userItem, setUserItem] = useState([])
@@ -14,8 +14,6 @@ const Dashboard = () => {
     const history = useHistory()
     const findItem = (productId) => userItem.filter((item) => item.id !== productId)
     const remove = (productID) => {
-        // let cart = findItem(productID)
-        // console.log('carts ', cart)
         db.collection('users').doc(user?.id).collection('order').doc(productID).delete()
     }
 
@@ -52,8 +50,9 @@ const Dashboard = () => {
     //         setUserItem(cardItem)
     //     });
     // }, [])
-    useEffect(() => {
 
+
+    useEffect(() => {
         db.collection("users").doc(user?.id).collection('order').onSnapshot((querySnapshot) => {
             let cardItem = []
             querySnapshot.forEach((doc) => {
@@ -85,7 +84,7 @@ const Dashboard = () => {
 
     return (
         <div >
-            <h1>Hello</h1>
+            <h1 style={{ textAlign: 'center', marginTop: '20px', marginBottom: '30px' }}>Your Purchsing History</h1>
             <div>
                 {userItem && userItem.length ? userItem.map(user => {
                     console.log(user.productList)
@@ -98,7 +97,9 @@ const Dashboard = () => {
                                 <p>Email: {user.email}</p>
                                 <p>Address: {user.address}</p>
                                 <p>Status: {user.status}</p>
-                                <p>totalAmount: {user.totalPrice}</p>
+                                <p>OrderType: {user.orderType}</p>
+
+                                <h5>TotalAmount: {user.totalPrice}</h5>
                                 <p>{user.description}</p>
                             </div>
                             <div>
@@ -115,7 +116,7 @@ const Dashboard = () => {
                                 })}
 
                             </div>
-                            <button onClick={() => remove(productID)} style={{ marginBottom: '10px' }}>Remove Item</button>
+                            <button onClick={() => remove(productID)} style={{ marginBottom: '10px' }}>Remove From Dashboard</button>
                         </div>
 
 

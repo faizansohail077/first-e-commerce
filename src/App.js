@@ -9,7 +9,11 @@ import Details from './Screens/Details/Details';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { auth, createUserProfileDocument } from './firebase';
+import db from './firebase';
+
+
 import Dashboard from './Screens/Dashboard/Dashboard';
+import { data } from './data';
 
 
 function App() {
@@ -44,6 +48,12 @@ function App() {
     })
     return unSubscribe
   }, [dispatch])
+
+  // useEffect(() => {
+  //   db.collection('products').doc().set(data)
+  // }, [])
+
+
 
 
   return (

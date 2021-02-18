@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import db from '../../firebase'
+import { useHistory } from 'react-router-dom'
+
 
 const CheckoutRight = () => {
 
@@ -11,8 +13,9 @@ const CheckoutRight = () => {
     const [address, setAddress] = useState('')
     const [payment, setPayment] = useState('')
     const [orderType, setOrderType] = useState('')
-    const { products, user } = useSelector(state => state.CartReducer)
-    console.log('this is products', products)
+    const history = useHistory()
+    const { cartItem, user } = useSelector(state => state.CartReducer)
+    console.log('this is products', cartItem)
     const dispatch = useDispatch()
     const [count, setCount] = useState(0)
     const [error, setError] = useState('')
@@ -23,10 +26,10 @@ const CheckoutRight = () => {
 
     useEffect(() => {
         total()
-    }, [products])
+    })
     const total = () => {
         var count1 = 0
-        products?.map(product => {
+        cartItem?.map(product => {
             count1 += product.price * product.quantity
         })
         setCount(count1)
@@ -44,7 +47,7 @@ const CheckoutRight = () => {
 
     const save = (e) => {
         e.preventDefault()
-        if (!products.length) {
+        if (!cartItem.length) {
             return alert('Add Item To Proceed')
         }
         let fName = firstName.trim()
@@ -77,7 +80,7 @@ const CheckoutRight = () => {
         }
         else {
             db.collection('users').doc(user?.id).collection('order').doc().set({
-                productList: products,
+                productList: cartItem,
                 name: firstName + ' ' + lastName,
                 number: number,
                 email: email,
@@ -102,6 +105,9 @@ const CheckoutRight = () => {
                 alert('Your Order has been Successfully Submited')
             }, 1000)
         }
+        setTimeout(() => {
+            history.push('/dashboard')
+        }, 1500)
     }
     return (
         <>
