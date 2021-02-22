@@ -73,14 +73,9 @@ const Dashboard = () => {
                                         </>
                                     )
                                 })}
-
                             </div>
                             <button onClick={() => remove(productID)} style={{ marginBottom: '10px' }}>Remove From Dashboard</button>
                         </div>
-
-
-
-
                     )
                 }) : null}
             </div>
